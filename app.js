@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-const peopleRouter = require('./controllers/people');
+const taskRouter = require('./controllers/tasks');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
 
@@ -28,7 +28,7 @@ app.use(express.json());
 
 app.use(middleware.requestLogger());
 
-app.use('/api/persons', peopleRouter);
+app.use('/api/tasks', taskRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 

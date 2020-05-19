@@ -6,15 +6,11 @@ mongoose.set('useCreateIndex', true);
 
 //define a schema
 //in mongoose, defines the shape of the documents in a certain collection
-const personSchema = new mongoose.Schema({
-    name: {
+const taskSchema = new mongoose.Schema({
+    title: {
         type: String,
         required: true,
         unique: true
-    },
-    number: {
-        type: String,
-        required: true
     },
     date: {
         type: Date,
@@ -26,10 +22,10 @@ const personSchema = new mongoose.Schema({
         required: true
     }
 });
-personSchema.plugin(uniqueValidator);
+taskSchema.plugin(uniqueValidator);
 
 //id is becomes a string instead of object using 'toJSON' fun
-personSchema.set('toJSON', {
+taskSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString();
         delete returnedObject._id;
@@ -37,4 +33,4 @@ personSchema.set('toJSON', {
     }
 });
 
-module.exports = mongoose.model('Person', personSchema);
+module.exports = mongoose.model('Task', taskSchema);

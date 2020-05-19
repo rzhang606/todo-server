@@ -8,10 +8,10 @@ const userSchema = new mongoose.Schema({
     },
     name: String,
     passwordHash: String,
-    people: [ //store people as array of mongo ids+
+    tasks: [ //store people as array of mongo ids+
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Person'
+            ref: 'Task'
         }
     ],
 });

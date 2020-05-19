@@ -28,7 +28,7 @@ usersRouter.post('/', async (req, res) => {
 usersRouter.get('/', async (req, res) => {
     // ids in 'people' field of users will be populated with their corresponding Person object
     // populate uses the ref field in the definition of the model
-    const users = await User.find({}).populate('people', { name: 1, number: 1 });
+    const users = await User.find({}).populate('tasks', { title: 1});
     res.json(users.map(u => u.toJSON()));
 });
 
