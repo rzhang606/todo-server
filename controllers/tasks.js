@@ -69,7 +69,7 @@ taskRouter.get('/info', (req, res) => {
  * Delete
  */
 
-taskRouter.delete('/:id', (req, res) => {
+taskRouter.delete('/:id', async (req, res) => {
     Task.findByIdAndDelete(req.params.id)
         .then(result => {
             logger.info(`Deleted ${result.title} succesfully`);
@@ -78,6 +78,17 @@ taskRouter.delete('/:id', (req, res) => {
         .catch(err => {
             return logger.httpError(500, 'Could not delete', res);
         });
+    
+        const token = getToken(req); //grab token from client req
+        //checks validity of token, and decodes token
+        const decodedToken = jwt.verify(token, process.env.SECRET);
+        if(!token || !decodedToken.id) {
+            return logger.httpError(401, 'token missing or invalid', res);
+        }
+    
+        const user = await User.findById(decodedToken.id);
+        user.tasks = user.tasks.filter(task => task._id.toString() !== req.params.id.toString()); //object vs string
+        await user.save();
 });
 
 
