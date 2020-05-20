@@ -108,6 +108,11 @@ taskRouter.post('/', async (req, res, next) => {
 
     const user = await User.findById(decodedToken.id);
 
+    if(!user) {
+        logger.error(`User with id ${decodedToken.id} does not exist`);
+        return logger.httpError(400, 'Submitted user id does not match any records', res);
+    }
+
     const newTask = new Task({
         title: body.title,
         date: new Date(),
